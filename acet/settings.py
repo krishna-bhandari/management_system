@@ -70,11 +70,13 @@ WSGI_APPLICATION = 'acet.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
     }
 }
-
+#the uri inside default is changed in every 24hrs
+DATABASES['default']=dj_database_url.config(default='postgres://glbpxnsfdxthfn:152414fc8049c0607794aa4b595c504133d2e180e734b88657420d58c81d8cec@ec2-34-195-169-25.compute-1.amazonaws.com:5432/d8eumkd3eee7ff')
+db_from_env=dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
