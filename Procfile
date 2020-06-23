@@ -1,1 +1,1 @@
-web: gunicorn-acet.wsgi
+web: gunicorn acet.wsgi
