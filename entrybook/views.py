@@ -31,10 +31,13 @@ def recovery_entry(request):
 @login_required
 def input_desktop_entry(request):
 	last_entry=Desktop_entry.objects.last()
-	late=str(last_entry.entry_number)
-	a=late.split('-')
-	b=int(a[1])+1
-	new_entry_number=a[0]+'-'+str(b)
+	if last_entry is not None:
+		late=str(last_entry.entry_number)
+		a=late.split('-')
+		b=int(a[1])+1
+		new_entry_number=a[0]+'-'+str(b)
+	else:
+		new_entry_number='D-1001'
 	time=timezone.datetime.now()
 	date_only=time.strftime('%Y-%m-%d')
 	if request.method=='POST':
@@ -62,10 +65,13 @@ def input_desktop_entry(request):
 @login_required
 def input_laptop_entry(request):
 	last_entry=Laptop_entry.objects.last()
-	late=str(last_entry.entry_number)
-	a=late.split('-')
-	b=int(a[1])+1
-	new_entry_number=a[0]+'-'+str(b)
+	if last_entry is not None:
+		late=str(last_entry.entry_number)
+		a=late.split('-')
+		b=int(a[1])+1
+		new_entry_number=a[0]+'-'+str(b)
+	else:
+		new_entry_number='L-1001'	
 	time=timezone.datetime.now()
 	date_only=time.strftime('%Y-%m-%d')
 	if request.method=='POST':
@@ -92,10 +98,15 @@ def input_laptop_entry(request):
 @login_required
 def input_recovery_entry(request):
 	last_entry=Recovery.objects.last()
-	late=str(last_entry.entry_number)
-	a=late.split('-')
-	b=int(a[1])+1
-	new_entry_number=a[0]+'-'+str(b)
+	if last_entry is not None:
+
+		late=str(last_entry.entry_number)
+		a=late.split('-')
+		b=int(a[1])+1
+		new_entry_number=a[0]+'-'+str(b)
+	else:
+		new_entry_number='R-1001'	
+
 	time=timezone.datetime.now()
 	date_only=time.strftime('%Y-%m-%d')
 	if request.method=='POST':
