@@ -13,10 +13,13 @@ def show_inquery(request):
 @login_required
 def submit_inquery(request):
 	last_entry=Inquery.objects.last()
-	late=str(last_entry.entry_number)
-	a=late.split('-')
-	b=int(a[1])+1
-	new_entry_number=a[0]+'-'+str(b)
+	if last_entry is not None:
+		late=str(last_entry.entry_number)
+		a=late.split('-')
+		b=int(a[1])+1
+		new_entry_number=a[0]+'-'+str(b)
+	else:
+		new_entry_number='I-1001'
 	time=timezone.datetime.now()
 	date_only=time.strftime('%Y-%m-%d')
 	if request.method=='POST':
@@ -38,3 +41,4 @@ def submit_inquery(request):
 			return render(request, 'inquery/inquery_form.html',{'title':'New inquery','new':new_entry_number,'dates':date_only})
 	else:	
 		return render(request, 'inquery/inquery_form.html',{'title':'New inquery','new':new_entry_number,'dates':date_only})
+

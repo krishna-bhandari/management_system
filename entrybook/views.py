@@ -11,8 +11,11 @@ from django.db.models import F
 
 
 def home(request):
-	return render(request,'entrybook/index.html',{})
+	return render(request,'entrybook/index.html',{'greet':'WELCOME TO A-CET COMPUTERS'})
 
+def home1(request):
+	messages.success(request, 'This feature is under construction.')
+	return render(request,'entrybook/index.html',{'greet':'THANKS FOR VISITING HERE'})
 #display the entries
 @login_required
 def laptop_entry(request):
@@ -202,3 +205,4 @@ def change_password(request):
 
 	context ={'form':form}
 	return render(request,'entrybook/change_password.html',context)
+

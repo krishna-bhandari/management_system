@@ -22,8 +22,11 @@ urlpatterns = [
     path('input_desktop_entry/', views.input_desktop_entry,name='input_desktop_entry'),
     path('input_recovery_entry/', views.input_recovery_entry,name='input_recovery_entry'),
 
-    path('inquery/', include('inquery.urls')),
+    # path('inquery/', include('inquery.urls')),
     
+    path('components/', views.home1,name='home1'),
+    path('orders/', views.home1,name='home1'),
+    path('staff/', views.home1,name='home1'),
 
 
 
