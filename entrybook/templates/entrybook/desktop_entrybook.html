@@ -15,7 +15,7 @@
             <th scope="col">Customer Name</th><th scope="col">Contact</th><th scope="col">Device</th>
             <th scope="col">Solution</th>
             <th scope="col">Status</th>
-            <!-- <th scope="col">Action</th> -->
+            <th scope="col">Action</th>
           </tr>
         </thead>
         {%for entry in entrybook.all%}
@@ -29,6 +29,8 @@
             <td>{{entry.device_name}}</td>
             <td>{{entry.solution}}</td>
             <td>{{entry.status}}</td>
+            <td align="center"><li class="btn btn-secondary btn-sm "><a href="{%url 'home1'%}">Update</a> </li></td>
+
           </tr>
         </tbody>
         {%endfor%}
