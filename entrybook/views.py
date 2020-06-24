@@ -3,11 +3,14 @@ from django.contrib.auth import authenticate,login,logout,update_session_auth_ha
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm,PasswordChangeForm
+from django.contrib.auth.models import User
 from .forms import Sign_up_form,update_profile
 from .models import *
 from django.utils import timezone
 from django.db.models import F
+from django.http import JsonResponse
 
+from django.views.generic import ListView,View
 
 
 def home(request):
@@ -20,11 +23,23 @@ def home1(request):
 @login_required
 def laptop_entry(request):
 	entrybook=Laptop_entry.objects
-	return render(request, 'entrybook/laptop_entrybook.html',{'entrybook':entrybook,'title':'Laptop'})
+	if entrybook is None:
+
+		messages.success(request, 'No Entries. Click New Entry to add new entry.')
+
+		return render(request, 'entrybook/laptop_entrybook.html',{'entrybook':entrybook,'title':'Laptop'})
+	else:
+		return render(request, 'entrybook/laptop_entrybook.html',{'entrybook':entrybook,'title':'Laptop'})
 @login_required
 def desktop_entry(request):
 	entrybook=Desktop_entry.objects
-	return render(request, 'entrybook/desktop_entrybook.html',{'entrybook':entrybook,'title':'Desktop'})
+	if entrybook is None:
+
+		messages.success(request, 'No Entries. Click New Entry to add new entry.')
+
+		return render(request, 'entrybook/desktop_entrybook.html',{'title':'Desktop'})
+	else:
+		return render(request, 'entrybook/desktop_entrybook.html',{'entrybook':entrybook,'title':'Desktop'})
 @login_required
 def recovery_entry(request):
 	entrybook=Recovery.objects
@@ -206,3 +221,18 @@ def change_password(request):
 	context ={'form':form}
 	return render(request,'entrybook/change_password.html',context)
 
+
+def show_users(request):
+
+	user=User.objects
+	context={'staff':user}
+	return render(request,'entrybook/staff.html',context)
+
+class DeleteCrudUser(View):
+    def  get(self, request):
+        id1 = request.GET.get('id', None)
+        Desktop_entry.objects.get(id=id1).delete()
+        data = {
+            'deleted': True
+        }
+        return JsonResponse(data)

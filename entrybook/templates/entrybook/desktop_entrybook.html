@@ -8,7 +8,7 @@
 
     </div>
     <div class="table-responsive">
-      <table class="table table-bordered table-sm">
+      <table class="table table-bordered table-sm" id="userTable">
         <thead class="thead-dark">
           <tr>
             <th scope="col">SN</th><th scope="col">Entry Number</th><th scope="col">Date</th>
@@ -18,9 +18,10 @@
             <th scope="col">Action</th>
           </tr>
         </thead>
+        {%if entrybook%}
         {%for entry in entrybook.all%}
         <tbody>
-          <tr>
+          <tr id="entry-{{entry.id}}">
             <th>{{forloop.counter}}</th>
             <td>{{entry.entry_number}}</td>
             <td>{{entry.entry_date}}</td>
@@ -29,16 +30,80 @@
             <td>{{entry.device_name}}</td>
             <td>{{entry.solution}}</td>
             <td>{{entry.status}}</td>
-            <td align="center"><li class="btn btn-secondary btn-sm "><a href="{%url 'home1'%}">Update</a> </li></td>
+            <td align="center"><button class="btn btn-danger form-control" onClick="deleteUser({{entry.id}})">DELETE</button></td>
 
           </tr>
         </tbody>
+
+
         {%endfor%}
+        {%else%}
+
+<div class="container">
+      {%if messages%}
+        {%for message in messages%}
+        <div class="alert alert-warning alert-dismissible alert-primary fade show" role="alert">
+   {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+        </div>
+      {%endfor%}
+        {%endif%}   
+</div>
+        {%endif%}
       </table>
     </div>
+    <!-- update model -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title" id="myModalLabel">Update Entry</h4>
+        </div>
+        <form id="updateUser" action="">
+        <div class="modal-body">
+            <input class="form-control" id="form-id" type="hidden" name="formId"/>
+            <label for="name">Name</label>
+            <input class="form-control" id="form-name" type="text" name="formName"/>
+            <label for="address">solution</label>
+            <input class="form-control" id="form-address" type="text" name="formAddress"/>
+            <label for="age">status</label>
+            <input class="form-control" id="form-age" type="number" name="formAge" min=10 max=100/>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" >Save changes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
   </main> 
 
-
+<script>
+  function deleteUser(id) {
+  var action = confirm("Are you sure you want to delete this user?");
+  if (action != false) {
+    $("#userTable #entry-" + id).remove();
+    $.ajax({
+        url: '{% url "crud_ajax_delete" %}',
+        data: {
+            'id': id,
+        },
+        dataType: 'json',
+        success: function (data) {
+            if (data.deleted) {
+              // $("#userTable #entry-" + id).remove();
+            }
+        }
+    });
+  }
+}
+</script>
 
 
 {%endblock%}

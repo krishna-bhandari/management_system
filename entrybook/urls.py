@@ -11,6 +11,9 @@ urlpatterns = [
     path('register/', views.register_user,name='register_user'),
     path('update_user/', views.update_user, name='update_user'),
     path('change_password/', views.change_password,name='change_password'),
+    path('view_staff/', views.show_users,name='view_staff'),
+
+
 
 
     path('laptop_entry/', views.laptop_entry,name='laptop_entry'),
@@ -27,6 +30,9 @@ urlpatterns = [
     path('components/', views.home1,name='home1'),
     path('orders/', views.home1,name='home1'),
     path('staff/', views.home1,name='home1'),
+
+
+    path('delete/',  views.DeleteCrudUser.as_view(), name='crud_ajax_delete'),
 
 
 

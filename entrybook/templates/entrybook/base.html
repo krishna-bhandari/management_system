@@ -11,7 +11,7 @@
     <!-- custom bootstrap -->
     <link href="{%static 'dashboard.css'%}" rel="stylesheet">
     <link href="{%static 'sticky-footer.css'%}" rel="stylesheet">
-
+<!--     <link rel="icon" href="demo_icon.gif" sizes="16x16"> -->
 
     <style>
       .bd-placeholder-img {
@@ -99,7 +99,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{%url 'home1'%}">
+                <a class="nav-link" href="{%url 'view_staff'%}">
                   <span data-feather="bar-chart-2"></span>
                   Our Staff
                 </a>
@@ -144,6 +144,12 @@
                   Log Out
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{%url 'register_user'%}">
+                  <span data-feather="file-text"></span>
+                  Add New Staff
+                </a>
+              </li>
               {%else%}
               <li class="nav-item">
                 <a class="nav-link" href="{%url 'login'%}">
@@ -151,12 +157,12 @@
                  Log In
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href="{%url 'register_user'%}">
                   <span data-feather="file-text"></span>
                   Create Account
                 </a>
-              </li>
+              </li> -->
               {%endif%}
             </ul>
           </div>
@@ -198,6 +204,9 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="{%static 'dashboard.js'%}"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
    
   </body>
 </html>

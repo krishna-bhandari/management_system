@@ -1,0 +1,37 @@
+{%extends 'entrybook/base.html'%}
+ 
+{%block content%}
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-2">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-2 border-bottom">
+      <h1 class="h2">{{title}}</h1>
+      <a href="{%url 'input_laptop_entry'%}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">New Entry</a>
+
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">SN</th><th scope="col">User Name</th><th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <!-- <th scope="col">Action</th> -->
+          </tr>
+        </thead>
+        {%for staffs in staff.all%}
+        <tbody>
+          <tr>
+            <th>{{forloop.counter}}</th>
+            <td>{{staffs.username}}</td>
+            <td>{{staffs.first_name}}</td>
+            <td>{{staffs.last_name}}</td>
+           
+          </tr>
+        </tbody>
+        {%endfor%}
+      </table>
+    </div>
+  </main> 
+
+
+
+
+{%endblock%}
