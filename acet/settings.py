@@ -1,4 +1,4 @@
-
+ 
 import os
 import django_heroku
 from decouple import config
@@ -12,6 +12,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY=config('SECRET_KEY')
+# SECRET_KEY='nwu6m7aof(l3^aq)+)_!s#9jr3c3d#xw20fbrxk_563+t4g-h9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

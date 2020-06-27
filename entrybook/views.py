@@ -48,6 +48,7 @@ def recovery_entry(request):
 	#input entry
 @login_required
 def input_desktop_entry(request):
+	user=User.objects
 	last_entry=Desktop_entry.objects.last()
 	if last_entry is not None:
 		late=str(last_entry.entry_number)
@@ -59,27 +60,26 @@ def input_desktop_entry(request):
 	time=timezone.datetime.now()
 	date_only=time.strftime('%Y-%m-%d')
 	if request.method=='POST':
-		if request.POST['entry_number'] and request.POST['customer_name'] and request.POST['address'] and request.POST['contact'] and request.POST['device_detail']:
+		if request.POST['entry_number'] and request.POST['problem'] and request.POST['customer_name'] and request.POST['address'] and request.POST['contact'] and request.POST['device_detail']:
 			desktop=Desktop_entry()
 			desktop.entry_number=request.POST['entry_number']
 			desktop.device_detail=request.POST['device_detail']
 			desktop.device_name=request.POST['device_name']
 			desktop.customer_name=request.POST['customer_name']
-			desktop.problem==request.POST['problem']
-			# desktop.solution=request.POST['category']
-			# desktop.status=request.POST['status']
-			# desktop.remarks=request.POST['remarks']
+			desktop.problem=request.POST['problem']
 			desktop.contact=request.POST['contact']
 			desktop.address=request.POST['address']
+			desktop.technician=request.POST['technician']
 			desktop.entry_date=timezone.datetime.now().strftime('%Y-%m-%d')
 			desktop.save()
-			return redirect('home')				
+			messages.success(request, 'Entry added successfully')
+			return redirect('desktop_entry')				
 		else:
 			messages.success(request, 'invalid data entry')
 
-			return render(request, 'entrybook/desktop_entryform.html',{'title':'Desktop Entry','new':new_entry_number,'dates':date_only})
+			return render(request, 'entrybook/desktop_entryform.html',{'staff':user,'title':'Desktop Entry','new':new_entry_number,'dates':date_only})
 	else:	
-		return render(request, 'entrybook/desktop_entryform.html',{'title':'Desktop Entry','new':new_entry_number,'dates':date_only})
+		return render(request, 'entrybook/desktop_entryform.html',{'staff':user,'title':'Desktop Entry','new':new_entry_number,'dates':date_only})
 @login_required
 def input_laptop_entry(request):
 	last_entry=Laptop_entry.objects.last()
@@ -99,15 +99,16 @@ def input_laptop_entry(request):
 			laptop.device_detail=request.POST['device_detail']
 			laptop.device_name=request.POST['device_name']
 			laptop.customer_name=request.POST['customer_name']
-			laptop.problem==request.POST['problem']
-			# laptop.solution=request.POST['category']
-			# desktop.status=request.POST['status']
-			# desktop.remarks=request.POST['remarks']
+			laptop.problem=request.POST['problem']
 			laptop.contact=request.POST['contact']
 			laptop.address=request.POST['address']
+			laptop.technician=request.POST['technician']
+
 			laptop.entry_date=timezone.datetime.now().strftime('%Y-%m-%d')
 			laptop.save()
-			return redirect('home')
+			messages.success(request, 'Entry added successfully')
+
+			return redirect('laptop_entry')
 		else:
 			messages.success(request, 'invalid data entry')
 			return render(request, 'entrybook/laptop_entryform.html',{'title':'Laptop Entry','new':new_entry_number,'dates':date_only})
@@ -130,20 +131,19 @@ def input_recovery_entry(request):
 	if request.method=='POST':
 		if request.POST['entry_number'] and request.POST['customer_name'] and request.POST['address'] and request.POST['contact'] and request.POST['device_detail']:
 			recovery=Recovery()
-			
 			recovery.entry_number=request.POST['entry_number']
 			recovery.device_detail=request.POST['device_detail']
 			recovery.device_name=request.POST['device_name']
 			recovery.customer_name=request.POST['customer_name']
-			recovery.problem==request.POST['problem']
-			# recovery.solution=request.POST['category']
-			# desktop.status=request.POST['status']
-			# desktop.remarks=request.POST['remarks']
+			recovery.problem=request.POST['problem']
 			recovery.contact=request.POST['contact']
+			recovery.technician=request.POST['technician']
 			recovery.address=request.POST['address']
 			recovery.entry_date=timezone.datetime.now().strftime('%Y-%m-%d')
 			recovery.save()
-			return redirect('home')
+			messages.success(request, 'Entry added successfully')
+
+			return redirect('recovery_entry')
 		else:
 			messages.success(request, 'invalid data entry')
 
@@ -175,6 +175,7 @@ def logout_user(request):
 	logout(request)
 	messages.success(request, 'you have been logout')
 	return redirect('home')
+
 def register_user(request):
 	if request.method=='POST':
 		form=Sign_up_form(request.POST)
@@ -228,11 +229,90 @@ def show_users(request):
 	context={'staff':user}
 	return render(request,'entrybook/staff.html',context)
 
-class DeleteCrudUser(View):
-    def  get(self, request):
-        id1 = request.GET.get('id', None)
-        Desktop_entry.objects.get(id=id1).delete()
-        data = {
-            'deleted': True
-        }
-        return JsonResponse(data)
+
+def delete_desktop_entry(request,entry_id):
+	Desktop_entry.objects.get(id=entry_id).delete()
+	messages.success(request, 'entry deleted successfully')
+	return redirect('desktop_entry')
+def delete_laptop_entry(request,entry_id):
+	Laptop_entry.objects.get(id=entry_id).delete()
+	messages.success(request, 'entry deleted successfully')
+	return redirect('laptop_entry')
+def delete_recovery_entry(request,entry_id):
+	Recovery.objects.get(id=entry_id).delete()
+	messages.success(request, 'entry deleted successfully')
+	return redirect('recovery_entry')
+    
+
+
+def update_desktop_entrybook(request,entry_id):
+	user=User.objects
+	desktop=Desktop_entry.objects.get(id=entry_id)
+	if request.method=='POST':
+		if request.POST['status'] and request.POST['solution']and request.POST['remarks']and request.POST['entry_number']:
+			desktop=Desktop_entry.objects.get(id=entry_id)
+			desktop.entry_number=request.POST['entry_number']
+			desktop.solution=request.POST['solution']
+			desktop.status=request.POST['status']
+			desktop.remarks=request.POST['remarks']
+			desktop.technician=request.POST['technician']
+			desktop.save()
+			messages.success(request, 'entry updated successfully')
+			return redirect('desktop_entry')				
+		else:
+			messages.success(request, 'invalid data entry')
+
+			return render(request, 'entrybook/desktop_entrybook_update.html',{'staff':user,'title':'Update Entry','entry':desktop})
+	else:	
+		return render(request, 'entrybook/desktop_entrybook_update.html',{'staff':user,'title':'Update Entry','entry':desktop})
+def update_laptop_entrybook(request,entry_id):
+	user=User.objects
+	desktop=Laptop_entry.objects.get(id=entry_id)
+	if request.method=='POST':
+		if request.POST['status'] and request.POST['solution']and request.POST['remarks']and request.POST['entry_number']:
+			desktop=Laptop_entry.objects.get(id=entry_id)
+			desktop.entry_number=request.POST['entry_number']
+			desktop.solution=request.POST['solution']
+			desktop.status=request.POST['status']
+			desktop.remarks=request.POST['remarks']
+			desktop.technician=request.POST['technician']
+			desktop.save()
+			messages.success(request, 'entry updated successfully')
+			
+			return redirect('laptop_entry')				
+		else:
+			messages.success(request, 'invalid data entry')
+
+			return render(request, 'entrybook/laptop_entrybook_update.html',{'staff':user,'title':'Update Entry','entry':desktop})
+	else:	
+		return render(request, 'entrybook/laptop_entrybook_update.html',{'staff':user,'title':'Update Entry','entry':desktop})
+
+
+def update_recovery_entrybook(request,entry_id):
+	user=User.objects
+	desktop=Recovery.objects.get(id=entry_id)
+	if request.method=='POST':
+		if request.POST['status'] and request.POST['solution']and request.POST['remarks']and request.POST['entry_number']:
+			desktop=Recovery.objects.get(id=entry_id)
+			desktop.entry_number=request.POST['entry_number']
+			desktop.solution=request.POST['solution']
+			desktop.status=request.POST['status']
+			desktop.remarks=request.POST['remarks']
+			desktop.technician=request.POST['technician']
+			desktop.save()
+			messages.success(request, 'entry updated successfully')
+			
+			return redirect('recovery_entry')				
+		else:
+			messages.success(request, 'invalid data entry')
+
+			return render(request, 'entrybook/recovery_entrybook_update.html',{'staff':user,'title':'Update Entry','entry':desktop})
+	else:	
+		return render(request, 'entrybook/recovery_entrybook_update.html',{'staff':user,'title':'Update Entry','entry':desktop})
+
+
+
+
+
+
+

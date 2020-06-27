@@ -7,33 +7,70 @@
       <a href="{%url 'input_laptop_entry'%}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">New Entry</a>
 
     </div>
+    <div class="container">
+    {%if messages%}
+      {%for message in messages%}
+      <div class="alert alert-warning alert-dismissible alert-primary fade show" role="alert">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {%endfor%}
+    {%endif%}  
+  </div>
     <div class="table-responsive">
-      <table class="table table-bordered table-sm">
+      <table class="table table-bordered table-sm" id="desktop_table">
+        {%if entrybook%}
+
         <thead class="thead-dark">
           <tr>
             <th scope="col">SN</th><th scope="col">Entry Number</th><th scope="col">Date</th>
-            <th scope="col">Customer Name</th><th scope="col">Contact</th><th scope="col">Device</th>
+            <th scope="col">Customer Name</th><th scope="col">Contact</th><th scope="col">Device Name</th>
+            <th scope="col">Device Detail</th>
+            <th scope="col">Problem</th>
+
             <th scope="col">Solution</th>
             <th scope="col">Status</th>
-            <!-- <th scope="col">Action</th> -->
+            <th scope="col">Technician</th>
+
+            <th scope="col">Remarks</th>
+
+            <th scope="col">Action</th>
           </tr>
         </thead>
         {%for entry in entrybook.all%}
         <tbody>
-          <tr>
+          <tr id="{{entry.id}}">
             <th>{{forloop.counter}}</th>
-            <td>{{entry.entry_number}}</td>
-            <td>{{entry.entry_date}}</td>
-            <td>{{entry.customer_name}}</td>
-            <td>{{entry.contact}}</td>
-            <td>{{entry.device_name}}</td>
-            <td>{{entry.solution}}</td>
-            <td>{{entry.status}}</td>
+            <td class=" entry_number userData" name="entry_number">{{entry.entry_number}}</td>
+            <td class="userData" name="entry_date">{{entry.entry_date}}</td>
+            <td class="customer_name userData" name="customer_name">{{entry.customer_name}}</td>
+            <td class="userData" name="contact">{{entry.contact}}</td>
+            <td class="userData" name="device_name">{{entry.device_name}}</td>
+            <td class="userData" name="device_detail">{{entry.device_detail}}</td>
+            <td class="userData" name="problem">{{entry.problem}}</td>
+            <td class="solution userData" name="solution">{{entry.solution}}</td>
+            <td class="status userData" name="status">{{entry.status}}</td>
+            <td class="userData" name="technician">{{entry.technician}}</td>
+            <td class="userData" name="remarks">{{entry.remarks}}</td>
+            <td align="center">
+             <a href="{%url 'update_laptop_entrybook' entry.id%}"class="btn btn-secondary btn-sm form-control">UPDATE</a>
+
+             </td>
+
           </tr>
         </tbody>
+
+
         {%endfor%}
+        {%else%}
+
+        <h2>No entry available</h2>
+        {%endif%}
       </table>
     </div>
+    <!-- update model -->
   </main> 
 
 

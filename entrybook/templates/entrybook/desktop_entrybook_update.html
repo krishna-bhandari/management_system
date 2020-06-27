@@ -1,0 +1,102 @@
+{%extends 'entrybook/base.html'%}
+ 
+{%block content%}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-2">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-2 border-bottom">
+    <h1 class="h2">{{title}}</h1>
+  </div> 
+  <div class="container">
+    {%if messages%}
+      {%for message in messages%}
+      <div class="alert alert-warning alert-dismissible alert-primary fade show" role="alert">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {%endfor%}
+    {%endif%}  
+  </div>
+
+  <form method="POST" action="{%url 'update_desktop_entrybook' entry.id%}" enctype="multipart/formdata">
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="inputEntryNumber">Entry Number</label>
+        <input type="text" class="form-control" id="entry_number" name="entry_number" value="{{entry.entry_number}}" >
+      </div>
+      <div class="form-group col-md-4">
+        <label for="inputDate">Date</label>
+        <input type="text" class="form-control" id="dates" name="dates"value="{{entry.entry_date}}" readonly="">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="inputCustomerName">Customer Name</label>
+        <input type="text" class="form-control" id="customer_name"name='customer_name'value='{{entry.customer_name}}' readonly="">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputAddress">Address</label>
+        <input type="text" class="form-control" id="address"name='address' value='{{entry.address}}'readonly="">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputAddress2">Contact</label>
+        <input type="text" class="form-control" id="contact" value='{{entry.contact}}' name="contact"readonly="">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="device_name">Device Name</label>
+        <input type="text" class="form-control" id="device_name" name="device_name" value='{{entry.device_name}}' readonly="">
+      </div>
+      <div class="form-group col-md-8">
+        <label for="device_detail">Device Detail</label>
+        <input type="text" class="form-control" id="device_detail" name="device_detail" value='{{entry.device_detail}}' readonly="">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-8">
+        <label for="device_detail">Problem</label>
+        <input type="text" class="form-control" id="problem" name="problem"value='{{entry.problem}}'readonly="">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="technician">Technician</label>
+        <select id="technician" class="form-control" value='{{entry.technician}}'name="technician">
+         {%for staff in staff.all%}
+          <option selected>{{staff.username}}</option>
+          {%endfor%}
+        </select>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="technician">Solution</label>
+        <select id="solution" class="form-control" value='{{entry.solution}}' name="solution">
+          <option selected>OK</option>
+          <option>Return</option>
+        </select>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="technician">Status</label>
+        <select id="status" class="form-control" value='{{entry.status}}' name="status">
+          <option selected>Waiting</option>
+          <option>Completed</option>
+          <option>Dispatched</option>
+        </select>
+      </div>
+      <div class="form-group col-md-8">
+        <label for="device_detail">Remarks</label>
+        <input type="text" class="form-control" id="remarks" name="remarks"value='{{entry.remarks}}'>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+<br>
+<br>
+<a href="{%url 'delete_desktop_entry' entry.id%}"class="btn btn-secondary btn-sm">Delete Entry</a>
+
+
+</main> 
+
+
+
+
+{%endblock%}

@@ -29,10 +29,16 @@ urlpatterns = [
     
     path('components/', views.home1,name='home1'),
     path('orders/', views.home1,name='home1'),
-    path('staff/', views.home1,name='home1'),
 
 
-    path('delete/',  views.DeleteCrudUser.as_view(), name='crud_ajax_delete'),
+    path('desktop_entry/<int:entry_id>',  views.delete_desktop_entry, name='delete_desktop_entry'),
+    path('laptop_entry/<int:entry_id>',  views.delete_laptop_entry, name='delete_laptop_entry'),
+    path('recovery_entry/<int:entry_id>',  views.delete_recovery_entry, name='delete_recovery_entry'),
+
+
+    path('desktop_entry/<int:entry_id>/', views.update_desktop_entrybook, name='update_desktop_entrybook'),
+    path('laptop_entry/<int:entry_id>/', views.update_laptop_entrybook, name='update_laptop_entrybook'),
+    path('recovery_entry/<int:entry_id>/', views.update_recovery_entrybook, name='update_recovery_entrybook'),
 
 
 

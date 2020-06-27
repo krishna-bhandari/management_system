@@ -5,6 +5,7 @@
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-2 border-bottom">
     <h1 class="h2">{{title}}</h1>
   </div> 
+  <!-- messages for error or success -->
   <div class="container">
     {%if messages%}
       {%for message in messages%}
@@ -30,27 +31,28 @@
       </div>
       <div class="form-group col-md-4">
         <label for="inputCustomerName">Customer Name</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="Enter Customer Name"name='customer_name'>
+        <input type="text" class="form-control" id="customer_name" placeholder="Enter Customer Name"name='customer_name'>
       </div>
       <div class="form-group col-md-6">
         <label for="inputAddress">Address</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="Enter Address"name='address'>
+        <input type="text" class="form-control" id="address" placeholder="Enter Address"name='address'>
       </div>
       <div class="form-group col-md-6">
         <label for="inputAddress2">Contact</label>
-        <input type="text" class="form-control" id="inputAddress2" placeholder="Enter contact" name="contact">
+        <input type="text" class="form-control" id="contact" placeholder="Enter contact" name="contact">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
         <label for="device_name">Device Name</label>
-        <select id="device_name" class="form-control" name="device_name">
+        <select id="device_name" class="form-control" placeholder='Select device' name="device_name">
           <option selected>Motherboard</option>
           <option selected>Full CPU</option>
-          
-
-          
-
+          <option selected>SMPS</option>
+          <option selected>Printer</option>
+          <option selected>Full CPU</option>
+          <option selected>Cartridge</option>
+          <option selected>Other Device</option>
         </select>
       </div>
       <div class="form-group col-md-8">
@@ -58,18 +60,17 @@
         <input type="text" class="form-control" id="device_detail" name="device_detail">
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group col-md-8">
-        <label for="device_detail">Problem</label>
-        <input type="text" class="form-control" id="problem" name="problem">
-      </div>
+    <div class="form-group col-md-10">
+      <label for="problem">Problem</label>
+      <input type="text" class="form-control" id="problem" name="problem">
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
         <label for="technician">Technician</label>
         <select id="technician" class="form-control" name="technician">
-          <option selected>Krishna Bhandari</option>
-          <option>Sudeep Rizal</option>
+          {%for staff in staff.all%}
+          <option selected>{{staff.username}}</option>
+          {%endfor%}
         </select>
       </div>
     </div>

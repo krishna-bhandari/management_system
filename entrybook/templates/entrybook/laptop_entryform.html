@@ -69,8 +69,9 @@
       <div class="form-group col-md-4">
         <label for="technician">Technician</label>
         <select id="technician" class="form-control" name="technician">
-          <option selected>Krishna Bhandari</option>
-          <option>Sudeep Rizal</option>
+          {%for staff in staff.all%}
+          <option selected>{{staff.username}}</option>
+          {%endfor%}
         </select>
       </div>
     </div>
