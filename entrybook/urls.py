@@ -28,7 +28,7 @@ urlpatterns = [
     # path('inquery/', include('inquery.urls')),
     
     path('components/', views.home1,name='home1'),
-    path('orders/', views.home1,name='home1'),
+    # path('orders/', views.home1,name='home1'),
 
 
     path('desktop_entry/<int:entry_id>',  views.delete_desktop_entry, name='delete_desktop_entry'),
@@ -39,6 +39,17 @@ urlpatterns = [
     path('desktop_entry/<int:entry_id>/', views.update_desktop_entrybook, name='update_desktop_entrybook'),
     path('laptop_entry/<int:entry_id>/', views.update_laptop_entrybook, name='update_laptop_entrybook'),
     path('recovery_entry/<int:entry_id>/', views.update_recovery_entrybook, name='update_recovery_entrybook'),
+
+    path('inquery/', views.show_inquery,name='inquery'),
+    path('new_inquery/', views.submit_inquery,name='submit_inquery'),
+
+    path('show_order/', views.show_order,name='show_order'),
+    path('create_order/', views.create_order,name='create_order'),
+    path('show_order/<int:order_id>/', views.update_order,name='update_order'),
+    # path('update_order/', views.update_order,name='update_order'),
+
+    # path('show_order/<int:order_id>/', views.delete_order,name='delete_order'),
+
 
 
 

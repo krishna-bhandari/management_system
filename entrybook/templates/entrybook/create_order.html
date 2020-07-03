@@ -1,0 +1,51 @@
+ {%extends 'entrybook/base.html'%}
+ 
+{%block content%}
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-2">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-2 border-bottom">
+      <h1 class="h2">{{title}}</h1>
+      <!-- <a href="{%url 'show_order'%}" class="btn btn-secondary btn-sm " role="button" aria-pressed="true" data-toggle="modal" data-target="#exampleModal">Make New Order</a> -->
+    </div>
+<div class="container">
+    {%if messages%}
+      {%for message in messages%}
+      <div class="alert alert-warning alert-dismissible alert-primary fade show" role="alert">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {%endfor%}
+    {%endif%}  
+  </div>
+<!-- Modal -->
+      <div class="modal-body">
+       <form method="POST" action="{%url 'create_order'%}">
+        {%csrf_token%}
+
+          {%if form.errors%}
+ 
+        <div class="alert alert-warning alert-dismissible alert-primary fade show" role="alert">
+  
+
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+         <p>error in form</p>
+         {%for field in form%}
+          {%if field.errors%}
+            {{field.errors}}
+          {%endif%}
+          {%endfor%}
+        </div>
+                {%endif%}
+          {{form}}
+          <button type="submit" class="btn btn-primary">Order Now</button>    
+        </form>
+      </div>
+  </main> 
+
+
+
+
+{%endblock%}

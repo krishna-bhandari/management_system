@@ -1,7 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm,UserChangeForm
 from django.contrib.auth.models import User
 from django import forms
-
+from django.forms import ModelForm
+from .models import *
 class update_profile(UserChangeForm):
 	password = forms.CharField( widget=forms.TextInput(attrs={'type':'hidden'}))
 
@@ -34,3 +35,34 @@ class Sign_up_form(UserCreationForm):
 
 		self.fields['password1'].widget.attrs['class']='form-control'
 		self.fields['password2'].widget.attrs['class']='form-control'
+
+
+class Order_form(ModelForm):
+	class Meta:
+		model= Orders
+		fields='__all__'
+
+	def __init__(self, *args, **kwargs):
+		super(Order_form,self).__init__(*args, **kwargs)
+
+		self.fields['order_detail'].widget.attrs['class']='form-control'
+		self.fields['order_number'].widget.attrs['class']='form-control'
+		self.fields['order_by'].widget.attrs['class']='form-control'
+		self.fields['status'].widget.attrs['class']='form-control'
+		self.fields['quantity'].widget.attrs['class']='form-control'
+		self.fields['photo'].widget.attrs['class']='form-control'
+
+class Update_order_form(ModelForm):
+	class Meta:
+		model= Orders
+		fields='__all__'
+
+	def __init__(self, *args, **kwargs):
+		super(Update_order_form,self).__init__(*args, **kwargs)
+
+		self.fields['order_detail'].widget.attrs['class']='form-control'
+		self.fields['order_number'].widget.attrs['class']='form-control'
+		self.fields['order_by'].widget.attrs['class']='form-control'
+		self.fields['status'].widget.attrs['class']='form-control'
+		self.fields['quantity'].widget.attrs['class']='form-control'
+		self.fields['photo'].widget.attrs['class']='form-control'

@@ -1,0 +1,67 @@
+ {%extends 'entrybook/base.html'%}
+ 
+{%block content%}
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-2">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-2 border-bottom">
+      <h1 class="h2">{{title}}</h1>
+      <a href="{%url 'create_order'%}" class="btn btn-secondary btn-sm " role="button" aria-pressed="true">Make New Order</a>
+
+    </div>
+    <div class="container">
+    {%if messages%}
+      {%for message in messages%}
+      <div class="alert alert-warning alert-dismissible alert-primary fade show" role="alert">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {%endfor%}
+    {%endif%}  
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">SN</th><th scope="col">Order Number</th><th scope="col">Order Date</th><th scope="col">Order Details</th>
+            <th scope="col">Quantity</th><th scope="col">Order By</th><th scope="col">Status</th>
+            
+      <!--       <th scope="col">Status</th> -->
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        {%for order in order.all%}
+        <tbody>
+          <tr>
+            <th>{{forloop.counter}}</th>
+            <td>{{order.order_number}}</td>
+
+            <td>{{order.order_date}}</td>
+            <td>{{order.order_detail}}</td>
+            <td>{{order.quantity}}</td>
+            <td>{{order.order_by}}</td>
+            <td>{{order.status}}</td>
+            <td align="center">
+        
+             <a href="{%url 'update_order' order.id%}"class="btn btn-secondary btn-sm form-control">UPDATE</a>
+             </td>
+          
+     
+          </tr>
+        </tbody>
+        {%endfor%}
+      </table>
+    </div>
+
+
+
+    <!-- Button trigger modal -->
+
+<!-- Modal -->
+
+  </main> 
+
+
+
+
+{%endblock%}

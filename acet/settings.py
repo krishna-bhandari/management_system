@@ -24,7 +24,6 @@ ALLOWED_HOSTS = ['192.168.100.18','localhost','0.0.0.0',]
 
 INSTALLED_APPS = [
     'entrybook',
-    'inquery',
     'components',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -123,5 +122,6 @@ STATIC_ROOT=os.path.join(BASE_DIR,'static')
 
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 MEDIA_URL='media/'
+MEDIA_DIRS=[os.path.join(BASE_DIR,'media')]
 
 django_heroku.settings(locals())

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm,PasswordChangeForm
 from django.contrib.auth.models import User
-from .forms import Sign_up_form,update_profile
+from .forms import *
 from .models import *
 from django.utils import timezone
 from django.db.models import F
@@ -310,9 +310,83 @@ def update_recovery_entrybook(request,entry_id):
 	else:	
 		return render(request, 'entrybook/recovery_entrybook_update.html',{'staff':user,'title':'Update Entry','entry':desktop})
 
+def show_inquery(request):
+	inqueries=Inquery.objects
+	return render(request, 'entrybook/show_inquery.html',{'entrybook':inqueries,'title':'Old Inqueries'})
+
+@login_required
+def submit_inquery(request):
+	last_entry=Inquery.objects.last()
+	if last_entry is not None:
+		late=str(last_entry.entry_number)
+		a=late.split('-')
+		b=int(a[1])+1
+		new_entry_number=a[0]+'-'+str(b)
+	else:
+		new_entry_number='I-1001'
+	time=timezone.datetime.now()
+	date_only=time.strftime('%Y-%m-%d')
+	if request.method=='POST':
+		if request.POST['customer_name'] and request.POST['address'] and request.POST['contact'] and request.POST['inquery_detail']:
+			desktop=Inquery()
+			desktop.entry_number=request.POST['entry_number']
+			desktop.inquery_detail=request.POST['inquery_detail']
+			desktop.customer_name=request.POST['customer_name']
+			desktop.remarks=request.POST['remarks']
+			
+			desktop.contact=request.POST['contact']
+			desktop.address=request.POST['address']
+			desktop.entry_date=timezone.datetime.now().strftime('%Y-%m-%d')
+			desktop.save()
+			return redirect('inquery')				
+		else:
+			messages.success(request, 'invalid data entry')
+
+			return render(request, 'entrybook/inquery_form.html',{'title':'New inquery','new':new_entry_number,'dates':date_only})
+	else:	
+		return render(request, 'entrybook/inquery_form.html',{'title':'New inquery','new':new_entry_number,'dates':date_only})
+
+def show_order(request):
+	order=Orders.objects
+	return render(request, 'entrybook/show_order.html',{'order':order})
+
+def create_order(request):
+	form=Order_form()
+	if request.method=='POST':
+		form=Order_form(request.POST)
+		if form.is_valid():
+			form.save()
+			messages.success(request, 'order in progress')
+			return redirect('show_order')
+		else:
+			messages.success(request, 'invalid entry')
+			return redirect('/')
+	context={'form':form,'title':'New Order'}
+	# messages.success(request, message)
+	return render(request, 'entrybook/create_order.html',context )
+
+def update_order(request,order_id):
+	order=Orders.objects.get(id=order_id)
+	form=Order_form(instance=order)
+	if request.method=='POST':
+		order=Orders.objects.get(id=order_id)
+		form=Order_form(request.POST,instance=order)
+		if form.is_valid():
+			form.save()
+			messages.success(request, 'order updated')
+			return redirect('show_order')
+		else:
+			messages.success(request, 'invalid entry')
+			return render(request, 'entrybook/update_order.html',context)
+			
+	else:
+		context={'form':form,'title':'Update Order'}
+		return render(request, 'entrybook/update_order.html',context)
 
 
 
 
-
-
+# def delete_order(request,order_id):
+# 	order_del=Orders.objects.get(id=order_id).delete()
+# 	messages.success(request, 'order deleted')
+# 	return redirect('show_order')

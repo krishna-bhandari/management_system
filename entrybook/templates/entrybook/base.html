@@ -68,33 +68,37 @@
                   Home
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{%url 'laptop_entry'%}">
-                  Laptop Entry
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  EntryBook
                 </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{%url 'desktop_entry'%}">
-                  Desktop Entry
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{%url 'recovery_entry'%}">
-                  Recovery Entry
-                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{%url 'laptop_entry'%}">Laptop Entry</a>
+                  <a class="dropdown-item" href="{%url 'desktop_entry'%}">Desktop Entry</a>
+                  <a class="dropdown-item" href="{%url 'recovery_entry'%}">Recovery Entry</a>
+                </div>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{%url 'inquery'%}">
                   Inquery
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{%url 'home1'%}">
-                  Available Components
+               <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Components/Acessories
                 </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Acessories/Parts</a>
+                  <a class="dropdown-item" href="#">Electronic Components</a>
+                </div>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{%url 'home1'%}">
+                  Components
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{%url 'show_order'%}">
                   Orders
                 </a>
               </li>
